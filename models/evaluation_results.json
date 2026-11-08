@@ -1,0 +1,84 @@
+{
+    "random_forest": {
+        "model_name": "Random Forest",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "roc_auc": 1.0,
+        "confusion_matrix": [
+            [
+                1000,
+                0
+            ],
+            [
+                0,
+                1000
+            ]
+        ],
+        "f1_score": 1.0
+    },
+    "xgboost": {
+        "model_name": "XGBoost",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "roc_auc": 1.0,
+        "confusion_matrix": [
+            [
+                1000,
+                0
+            ],
+            [
+                0,
+                1000
+            ]
+        ],
+        "f1_score": 1.0
+    },
+    "catboost": {
+        "model_name": "CatBoost",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "roc_auc": 1.0,
+        "confusion_matrix": [
+            [
+                1000,
+                0
+            ],
+            [
+                0,
+                1000
+            ]
+        ],
+        "f1_score": 1.0
+    },
+    "features": [
+        "url_length",
+        "hostname_length",
+        "domain_length",
+        "path_length",
+        "num_dots",
+        "num_hyphens",
+        "num_digits",
+        "num_special_chars",
+        "num_subdomains",
+        "num_params",
+        "has_https",
+        "has_ip_address",
+        "has_at_symbol",
+        "has_suspicious_patterns"
+    ],
+    "dataset_summary": {
+        "total_samples": 10000,
+        "train_samples": 8000,
+        "test_samples": 2000,
+        "num_legitimate": 5000,
+        "num_phishing": 5000,
+        "split_ratio": "80/20",
+        "random_state": 42
+    }
+}
