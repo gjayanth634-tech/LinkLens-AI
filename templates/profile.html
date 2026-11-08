@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+
+{% block title %}Profile Settings - LinkLens AI{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Page Header -->
+    <div class="page-header mb-4">
+        <h1 class="h3 text-light fw-bold mb-1">
+            <i class="fa-solid fa-user-gear text-primary me-2"></i>Profile Settings
+        </h1>
+        <p class="text-secondary mb-0">Manage your LinkLens AI account information and security preferences</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Left Column: Profile Overview & Account Actions -->
+        <div class="col-lg-4">
+            <!-- Profile Overview Card -->
+            <div class="card shadow border-0 mb-4" style="background-color: var(--bg-card, #1a2332); border-radius: 14px;">
+                <div class="card-body p-4 text-center">
+                    <!-- Avatar Circle with User's Initials -->
+                    {% set names = (user.full_name or 'User').strip().split() %}
+                    {% if names|length > 1 %}
+                        {% set initials = (names[0][0] ~ names[-1][0])|upper %}
+                    {% else %}
+                        {% set initials = (names[0][:2] if names[0]|length > 1 else names[0])|upper %}
+                    {% endif %}
+                    
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="user-avatar-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-lg" 
+                             style="width: 88px; height: 88px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-blue, #3b82f6), var(--accent-cyan, #06b6d4)); font-size: 2rem; border: 3px solid rgba(255,255,255,0.1);">
+                            {{ initials }}
+                        </div>
+                    </div>
+
+                    <h4 class="text-light fw-bold mb-1">{{ user.full_name or 'LinkLens User' }}</h4>
+                    <p class="text-secondary small mb-3">{{ user.email }}</p>
+
+                    <hr class="border-secondary border-opacity-25 my-3">
+
+                    <div class="row g-2 text-start">
+                        <div class="col-6">
+                            <span class="text-secondary small text-uppercase fw-semibold d-block">Member Since</span>
+                            <span class="text-light small fw-medium">
+                                {% if stats.member_since %}
+                                    {{ stats.member_since }}
+                                {% elif user.created_at is string %}
+                                    {{ user.created_at }}
+                                {% elif user.created_at %}
+                                    {{ user.created_at.strftime('%b %Y') }}
+                                {% else %}
+                                    Recent
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="col-6">
+                            <span class="text-secondary small text-uppercase fw-semibold d-block">Total Scans</span>
+                            <span class="text-info fw-bold fs-6">
+                                {{ stats.total_scans | default(0) }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Actions Card -->
+            <div class="card shadow border-0" style="background-color: var(--bg-card, #1a2332); border-radius: 14px;">
+                <div class="card-body p-4">
+                    <h6 class="text-light fw-bold mb-3 d-flex align-items-center">
+                        <i class="fa-solid fa-shield-halved text-warning me-2"></i>Account Session
+                    </h6>
+                    <p class="text-secondary small mb-3">
+                        Finished your current session? You can safely log out from your active session on this device.
+                    </p>
+                    <a href="/logout" class="btn btn-outline-danger w-100 fw-semibold py-2">
+                        <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Sign Out of Account
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Settings Forms -->
+        <div class="col-lg-8">
+            <!-- Update Name Card -->
+            <div class="card shadow border-0 mb-4" style="background-color: var(--bg-card, #1a2332); border-radius: 14px;">
+                <div class="card-header bg-transparent border-secondary border-opacity-25 py-3">
+                    <h5 class="text-light fw-bold mb-0 d-flex align-items-center">
+                        <i class="fa-solid fa-user-pen text-info me-2"></i>Personal Information
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" action="/profile/update">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                        <div class="mb-3">
+                            <label for="fullNameInput" class="form-label text-light fw-semibold">Full Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary">
+                                    <i class="fa-regular fa-user"></i>
+                                </span>
+                                <input 
+                                    type="text" 
+                                    class="form-control bg-dark text-light border-secondary" 
+                                    id="fullNameInput" 
+                                    name="full_name" 
+                                    value="{{ user.full_name or '' }}" 
+                                    placeholder="Enter your full name" 
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-secondary fw-semibold">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary">
+                                    <i class="fa-regular fa-envelope"></i>
+                                </span>
+                                <input 
+                                    type="email" 
+                                    class="form-control bg-dark text-secondary border-secondary" 
+                                    value="{{ user.email }}" 
+                                    disabled 
+                                    readonly
+                                >
+                            </div>
+                            <div class="form-text text-secondary small">Email address cannot be modified once registered.</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary px-4 fw-semibold shadow-sm text-white" style="background: linear-gradient(135deg, var(--accent-blue, #3b82f6), var(--accent-cyan, #06b6d4)); border: none;">
+                            <i class="fa-solid fa-floppy-disk me-2"></i>Save Changes
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Change Password Card -->
+            <div class="card shadow border-0" style="background-color: var(--bg-card, #1a2332); border-radius: 14px;">
+                <div class="card-header bg-transparent border-secondary border-opacity-25 py-3">
+                    <h5 class="text-light fw-bold mb-0 d-flex align-items-center">
+                        <i class="fa-solid fa-key text-warning me-2"></i>Change Password
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Password Error Alert (Client-side) -->
+                    <div id="passwordMismatchAlert" class="alert alert-danger d-none align-items-center mb-3" role="alert">
+                        <i class="fa-solid fa-circle-exclamation me-2"></i>
+                        <span id="passwordMismatchMsg">New password and confirmation do not match.</span>
+                    </div>
+
+                    <form id="passwordForm" method="POST" action="/profile/password">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                        <div class="mb-3">
+                            <label for="current_password" class="form-label text-light fw-semibold">Current Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary">
+                                    <i class="fa-solid fa-lock"></i>
+                                </span>
+                                <input 
+                                    type="password" 
+                                    class="form-control bg-dark text-light border-secondary" 
+                                    id="current_password" 
+                                    name="current_password" 
+                                    placeholder="Enter your current password" 
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="new_password" class="form-label text-light fw-semibold">New Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary">
+                                    <i class="fa-solid fa-shield-keyhole"></i>
+                                </span>
+                                <input 
+                                    type="password" 
+                                    class="form-control bg-dark text-light border-secondary" 
+                                    id="new_password" 
+                                    name="new_password" 
+                                    minlength="8" 
+                                    placeholder="Enter new password (min. 8 characters)" 
+                                    required
+                                >
+                            </div>
+                            <div class="form-text text-secondary small">Minimum 8 characters with a mix of letters, numbers, and symbols.</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="confirm_password" class="form-label text-light fw-semibold">Confirm New Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-secondary">
+                                    <i class="fa-solid fa-check-double"></i>
+                                </span>
+                                <input 
+                                    type="password" 
+                                    class="form-control bg-dark text-light border-secondary" 
+                                    id="confirm_password" 
+                                    name="confirm_password" 
+                                    minlength="8" 
+                                    placeholder="Confirm your new password" 
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <button type="submit" id="changePasswordBtn" class="btn btn-warning px-4 fw-semibold text-dark shadow-sm">
+                            <i class="fa-solid fa-lock-open me-2"></i>Change Password
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('passwordForm');
+    const newPass = document.getElementById('new_password');
+    const confirmPass = document.getElementById('confirm_password');
+    const alertBox = document.getElementById('passwordMismatchAlert');
+    const alertMsg = document.getElementById('passwordMismatchMsg');
+
+    if (!form || !newPass || !confirmPass) return;
+
+    form.addEventListener('submit', function (e) {
+        if (newPass.value.length < 8) {
+            e.preventDefault();
+            alertMsg.textContent = 'New password must be at least 8 characters long.';
+            alertBox.classList.remove('d-none');
+            alertBox.classList.add('d-flex');
+            newPass.focus();
+            return false;
+        }
+
+        if (newPass.value !== confirmPass.value) {
+            e.preventDefault();
+            alertMsg.textContent = 'New password and confirmation do not match.';
+            alertBox.classList.remove('d-none');
+            alertBox.classList.add('d-flex');
+            confirmPass.focus();
+            return false;
+        }
+
+        alertBox.classList.add('d-none');
+        alertBox.classList.remove('d-flex');
+    });
+
+    confirmPass.addEventListener('input', function () {
+        if (confirmPass.value && newPass.value !== confirmPass.value) {
+            confirmPass.classList.add('is-invalid');
+        } else {
+            confirmPass.classList.remove('is-invalid');
+            alertBox.classList.add('d-none');
+        }
+    });
+});
+</script>
+{% endblock %}

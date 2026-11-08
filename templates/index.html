@@ -1,0 +1,387 @@
+{% extends "base.html" %}
+
+{% block title %}LinkLens AI - Advanced Phishing URL Detection & Threat Intelligence{% endblock %}
+
+{% block content %}
+<!-- =================================================================
+     HERO SECTION
+     ================================================================= -->
+<section class="hero-section position-relative overflow-hidden">
+    <div class="hero-background-glow"></div>
+    <div class="hero-grid-pattern"></div>
+
+    <div class="container position-relative py-5">
+        <div class="row align-items-center min-vh-hero gy-5">
+            <div class="col-lg-7 text-center text-lg-start animate-fade-in">
+                <div class="hero-badge mb-3 d-inline-flex align-items-center gap-2">
+                    <span class="badge-dot"></span>
+                    <i class="fa-solid fa-shield-virus text-info"></i>
+                    <span>Next-Gen URL Threat Intelligence</span>
+                </div>
+                
+                <h1 class="hero-title fw-extrabold display-4 mb-4">
+                    Detect Suspicious URLs <span class="text-gradient">Before You Click</span>
+                </h1>
+                
+                <p class="hero-subtitle text-secondary fs-5 mb-5 pe-lg-4">
+                    LinkLens AI uses machine learning to analyze URL characteristics and identify potential phishing attempts &mdash; without ever visiting the website.
+                </p>
+
+                <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start hero-actions">
+                    <a href="/register" class="btn btn-primary btn-lg px-4 py-3 shadow-cyber">
+                        <i class="fa-solid fa-rocket me-2"></i> Get Started Free
+                    </a>
+                    <a href="#features" class="btn btn-outline-cyber btn-lg px-4 py-3">
+                        <i class="fa-solid fa-circle-down me-2"></i> Learn More
+                    </a>
+                </div>
+
+                <div class="hero-metrics mt-5 pt-3 d-flex flex-wrap gap-4 justify-content-center justify-content-lg-start text-secondary border-top border-dark-subtle">
+                    <div class="metric-item d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-bolt text-warning"></i>
+                        <span><strong>14+</strong> Lexical Indicators</span>
+                    </div>
+                    <div class="metric-item d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-brain text-info"></i>
+                        <span><strong>SHAP</strong> Explainability</span>
+                    </div>
+                    <div class="metric-item d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-shield-halved text-success"></i>
+                        <span><strong>100%</strong> Zero-Visit Safe</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5 text-center animate-slide-up">
+                <div class="hero-visual-card position-relative">
+                    <div class="radar-scanner-wrapper mx-auto">
+                        <div class="radar-circle circle-1"></div>
+                        <div class="radar-circle circle-2"></div>
+                        <div class="radar-circle circle-3"></div>
+                        <div class="radar-sweep"></div>
+                        <div class="shield-core">
+                            <i class="fa-solid fa-shield-halved shield-pulse-icon"></i>
+                        </div>
+                        <div class="floating-badge badge-threat">
+                            <i class="fa-solid fa-triangle-exclamation text-danger me-1"></i> Phishing Blocked
+                        </div>
+                        <div class="floating-badge badge-safe">
+                            <i class="fa-solid fa-circle-check text-success me-1"></i> Safe Lexical Scan
+                        </div>
+                        <div class="floating-badge badge-shap">
+                            <i class="fa-solid fa-diagram-project text-info me-1"></i> ML Analysis
+                        </div>
+                    </div>
+
+                    <div class="hero-mini-terminal mt-4 p-3 text-start">
+                        <div class="terminal-header d-flex align-items-center gap-1 mb-2">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                            <span class="terminal-title ms-2 text-muted small font-monospace">threat_scan.py</span>
+                        </div>
+                        <div class="terminal-body font-monospace small">
+                            <p class="mb-1 text-muted">$ linklens-cli --inspect suspicious-domain.xyz/login</p>
+                            <p class="mb-1 text-info">&gt; Extracting 14 lexical features...</p>
+                            <p class="mb-0 text-success">&gt; Prediction: <span class="badge bg-danger text-white">Potential Phishing</span> (Conf: 96.8%)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =================================================================
+     FEATURES SECTION
+     ================================================================= -->
+<section id="features" class="features-section py-5 position-relative">
+    <div class="container py-4">
+        <div class="section-header text-center mb-5">
+            <span class="badge cyber-tag text-uppercase mb-2">Core Capabilities</span>
+            <h2 class="section-title display-6 fw-bold">Key Features</h2>
+            <p class="section-subtitle text-secondary mx-auto">
+                Comprehensive URL intelligence engineered for precision, privacy, and actionable insight.
+            </p>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <!-- Feature 1 -->
+            <div class="col">
+                <div class="feature-card h-100 p-4">
+                    <div class="feature-icon-wrapper mb-4">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h4 class="feature-title h5 fw-bold mb-3">ML-Powered Detection</h4>
+                    <p class="feature-text text-secondary mb-0">
+                        Advanced Random Forest and XGBoost models trained to identify phishing URL patterns.
+                    </p>
+                    <div class="feature-card-footer mt-4 pt-3 border-top border-dark-subtle">
+                        <span class="small text-info"><i class="fa-solid fa-microchip me-1"></i> Dual-Model Engine</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="col">
+                <div class="feature-card h-100 p-4">
+                    <div class="feature-icon-wrapper mb-4">
+                        <i class="fa-solid fa-shield-check"></i>
+                    </div>
+                    <h4 class="feature-title h5 fw-bold mb-3">Safe Analysis</h4>
+                    <p class="feature-text text-secondary mb-0">
+                        URLs are analyzed without visiting them &mdash; your safety is our priority.
+                    </p>
+                    <div class="feature-card-footer mt-4 pt-3 border-top border-dark-subtle">
+                        <span class="small text-success"><i class="fa-solid fa-lock me-1"></i> 100% Passive Inspection</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="col">
+                <div class="feature-card h-100 p-4">
+                    <div class="feature-icon-wrapper mb-4">
+                        <i class="fa-solid fa-chart-bar"></i>
+                    </div>
+                    <h4 class="feature-title h5 fw-bold mb-3">Explainable Results</h4>
+                    <p class="feature-text text-secondary mb-0">
+                        SHAP-powered explanations show exactly which URL features influenced the prediction.
+                    </p>
+                    <div class="feature-card-footer mt-4 pt-3 border-top border-dark-subtle">
+                        <span class="small text-warning"><i class="fa-solid fa-sliders me-1"></i> Feature Attribution</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="col">
+                <div class="feature-card h-100 p-4">
+                    <div class="feature-icon-wrapper mb-4">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <h4 class="feature-title h5 fw-bold mb-3">Scan History</h4>
+                    <p class="feature-text text-secondary mb-0">
+                        Track all your scans with detailed history and filtering.
+                    </p>
+                    <div class="feature-card-footer mt-4 pt-3 border-top border-dark-subtle">
+                        <span class="small text-primary"><i class="fa-solid fa-database me-1"></i> Persistent Audit Trail</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =================================================================
+     HOW IT WORKS SECTION
+     ================================================================= -->
+<section id="how-it-works" class="how-it-works-section py-5 position-relative">
+    <div class="container py-4">
+        <div class="section-header text-center mb-5">
+            <span class="badge cyber-tag text-uppercase mb-2">Detection Pipeline</span>
+            <h2 class="section-title display-6 fw-bold">How It Works</h2>
+            <p class="section-subtitle text-secondary mx-auto">
+                From untrusted link to transparent machine learning evaluation in four deterministic phases.
+            </p>
+        </div>
+
+        <div class="steps-flow-container position-relative">
+            <div class="step-connector d-none d-lg-block"></div>
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 position-relative">
+                <!-- Step 1 -->
+                <div class="col">
+                    <div class="step-card text-center h-100 p-4">
+                        <div class="step-circle mx-auto mb-4">1</div>
+                        <h4 class="step-title h5 fw-bold mb-2">Step 1: Enter URL</h4>
+                        <p class="step-description text-secondary small mb-0">
+                            Paste any suspicious URL into the scanner.
+                        </p>
+                        <div class="step-icon-hint mt-3 text-muted">
+                            <i class="fa-solid fa-link"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="col">
+                    <div class="step-card text-center h-100 p-4">
+                        <div class="step-circle mx-auto mb-4">2</div>
+                        <h4 class="step-title h5 fw-bold mb-2">Step 2: Feature Extraction</h4>
+                        <p class="step-description text-secondary small mb-0">
+                            14 URL characteristics are analyzed from the URL string.
+                        </p>
+                        <div class="step-icon-hint mt-3 text-muted">
+                            <i class="fa-solid fa-dna"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="col">
+                    <div class="step-card text-center h-100 p-4">
+                        <div class="step-circle mx-auto mb-4">3</div>
+                        <h4 class="step-title h5 fw-bold mb-2">Step 3: ML Prediction</h4>
+                        <p class="step-description text-secondary small mb-0">
+                            Our trained model classifies the URL.
+                        </p>
+                        <div class="step-icon-hint mt-3 text-muted">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="col">
+                    <div class="step-card text-center h-100 p-4">
+                        <div class="step-circle mx-auto mb-4">4</div>
+                        <h4 class="step-title h5 fw-bold mb-2">Step 4: Get Results</h4>
+                        <p class="step-description text-secondary small mb-0">
+                            View prediction with SHAP explanation.
+                        </p>
+                        <div class="step-icon-hint mt-3 text-muted">
+                            <i class="fa-solid fa-square-poll-vertical"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =================================================================
+     ABOUT SECTION
+     ================================================================= -->
+<section id="about" class="about-section py-5 position-relative">
+    <div class="container py-4">
+        <div class="row align-items-center gy-4">
+            <div class="col-lg-6">
+                <span class="badge cyber-tag text-uppercase mb-2">Academic Project</span>
+                <h2 class="section-title display-6 fw-bold mb-4">About LinkLens AI</h2>
+                <p class="text-secondary leading-relaxed mb-4">
+                    LinkLens AI was built as an MCA Semester 3 Mini Project investigating transparent, passive URL categorization. Traditional antivirus tools frequently query external live hosts or download sandbox payloads, introducing latency and operational hazards. In contrast, LinkLens AI relies exclusively on structural syntax, lexical anomalies, and machine learning models to identify phishing indicators.
+                </p>
+
+                <!-- Disclaimer Statement -->
+                <div class="alert cyber-alert alert-warning d-flex align-items-start gap-3 p-3 mb-4">
+                    <i class="fa-solid fa-triangle-exclamation fs-4 text-warning flex-shrink-0 mt-1"></i>
+                    <div class="disclaimer-text small">
+                        <strong>Important Safety Notice:</strong> This system analyzes URL structure only. It does not guarantee a URL is safe or dangerous. Always exercise multi-layered security practices before submitting credentials or sensitive information.
+                    </div>
+                </div>
+
+                <div class="tech-stack-wrapper">
+                    <h5 class="text-light fs-6 fw-semibold mb-3">Core Technology Stack:</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge tech-badge"><i class="fa-brands fa-python me-1 text-warning"></i> Python</span>
+                        <span class="badge tech-badge"><i class="fa-solid fa-flask me-1 text-light"></i> Flask</span>
+                        <span class="badge tech-badge"><i class="fa-solid fa-gears me-1 text-info"></i> Scikit-learn</span>
+                        <span class="badge tech-badge"><i class="fa-solid fa-chart-line me-1 text-danger"></i> XGBoost</span>
+                        <span class="badge tech-badge"><i class="fa-solid fa-diagram-project me-1 text-success"></i> SHAP</span>
+                        <span class="badge tech-badge"><i class="fa-solid fa-database me-1 text-success"></i> MongoDB</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card cyber-card p-4">
+                    <div class="card-header bg-transparent border-0 pb-0">
+                        <h4 class="h5 fw-bold text-light mb-1">
+                            <i class="fa-solid fa-code-compare me-2 text-info"></i>Feature Engineering Blueprint
+                        </h4>
+                        <p class="text-secondary small">14 Lexical attributes evaluated per URL</p>
+                    </div>
+                    <div class="card-body pt-2">
+                        <div class="row g-2 small font-monospace">
+                            <div class="col-6">
+                                <div class="p-2 rounded bg-secondary-subtle feature-pill d-flex align-items-center">
+                                    <i class="fa-solid fa-ruler me-2 text-info"></i> URL Length
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded bg-secondary-subtle feature-pill d-flex align-items-center">
+                                    <i class="fa-solid fa-globe me-2 text-info"></i> Domain Length
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded bg-secondary-subtle feature-pill d-flex align-items-center">
+                                    <i class="fa-solid fa-network-wired me-2 text-warning"></i> IP Address Presence
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded bg-secondary-subtle feature-pill d-flex align-items-center">
+                                    <i class="fa-solid fa-compress me-2 text-warning"></i> Shortener Service
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded bg-secondary-subtle feature-pill d-flex align-items-center">
+                                    <i class="fa-solid fa-at me-2 text-danger"></i> '@' Symbol Flag
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded bg-secondary-subtle feature-pill d-flex align-items-center">
+                                    <i class="fa-solid fa-slash me-2 text-danger"></i> Double Slash Redirect
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded bg-secondary-subtle feature-pill d-flex align-items-center">
+                                    <i class="fa-solid fa-minus me-2 text-primary"></i> Dash in Domain
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded bg-secondary-subtle feature-pill d-flex align-items-center">
+                                    <i class="fa-solid fa-ellipsis me-2 text-primary"></i> Subdomain Count
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded bg-secondary-subtle feature-pill d-flex align-items-center">
+                                    <i class="fa-solid fa-lock me-2 text-success"></i> HTTPS Protocol
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded bg-secondary-subtle feature-pill d-flex align-items-center">
+                                    <i class="fa-solid fa-arrow-down-9-1 me-2 text-info"></i> Digit Count
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded bg-secondary-subtle feature-pill d-flex align-items-center">
+                                    <i class="fa-solid fa-percent me-2 text-warning"></i> Special Char Ratio
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="p-2 rounded bg-secondary-subtle feature-pill d-flex align-items-center">
+                                    <i class="fa-solid fa-key me-2 text-danger"></i> Suspicious Keywords
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =================================================================
+     CTA SECTION
+     ================================================================= -->
+<section class="cta-section py-5 position-relative">
+    <div class="container py-4">
+        <div class="card cta-card p-5 text-center overflow-hidden position-relative">
+            <div class="cta-glow"></div>
+            <div class="position-relative z-1">
+                <i class="fa-solid fa-shield-virus fs-1 text-gradient mb-3"></i>
+                <h2 class="display-6 fw-bold mb-3">Ready to Check Your Links?</h2>
+                <p class="text-secondary fs-5 mb-4 mx-auto" style="max-width: 600px;">
+                    Join LinkLens AI today to inspect suspicious links with machine learning-backed transparency and instant SHAP explainability.
+                </p>
+                <div>
+                    <a href="/register" class="btn btn-primary btn-lg px-5 py-3 shadow-cyber">
+                        <i class="fa-solid fa-user-plus me-2"></i> Create your free account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

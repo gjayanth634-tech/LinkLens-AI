@@ -1,0 +1,348 @@
+{% extends "base.html" %}
+
+{% block title %}Security Dashboard - LinkLens AI{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper py-4">
+    <div class="container">
+        <!-- =================================================================
+             1. WELCOME HEADER & QUICK ACTIONS
+             ================================================================= -->
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 pb-3 mb-4 border-bottom border-dark-subtle">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge cyber-tag">
+                        <i class="fa-solid fa-radar text-info me-1"></i> System Active
+                    </span>
+                    <span class="text-secondary small" id="dashboardLiveDate">
+                        <i class="fa-regular fa-calendar-days me-1"></i> <span id="currentDateText"></span>
+                    </span>
+                </div>
+                <h1 class="h3 fw-bold text-light mb-0">
+                    Welcome back, <span class="text-gradient">{{ user.full_name if (user and user.full_name) else (user.name if (user and user.name) else session.get('user_name', 'Security Analyst')) }}</span>!
+                </h1>
+                <p class="text-secondary small mb-0 mt-1">Here is a real-time summary of your scanned URLs and classification telemetry.</p>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="d-flex flex-wrap gap-2">
+                <a href="/scanner" class="btn btn-primary d-flex align-items-center gap-2 shadow-cyber">
+                    <i class="fa-solid fa-plus-circle"></i>
+                    <span>Scan New URL</span>
+                </a>
+                <a href="/history" class="btn btn-outline-cyber d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>View History</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- =================================================================
+             2. STATISTICS CARDS (4 in a row, responsive)
+             ================================================================= -->
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 mb-4">
+            <!-- Total Scans -->
+            <div class="col">
+                <div class="stat-card total h-100 p-3 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <span class="stat-label d-block text-secondary text-uppercase fw-semibold mb-1">Total Scans</span>
+                            <div class="stat-number text-light fw-bold">{{ stats.total_scans | default(0) }}</div>
+                        </div>
+                        <div class="stat-icon-badge bg-primary-subtle text-primary">
+                            <i class="fa-solid fa-chart-simple fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="stat-footer mt-3 pt-2 border-top border-dark-subtle text-secondary small">
+                        <i class="fa-solid fa-layer-group text-primary me-1"></i> Lifetime activity
+                    </div>
+                </div>
+            </div>
+
+            <!-- Potential Phishing -->
+            <div class="col">
+                <div class="stat-card phishing h-100 p-3 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <span class="stat-label d-block text-secondary text-uppercase fw-semibold mb-1">Potential Phishing</span>
+                            <div class="stat-number text-danger fw-bold">{{ stats.phishing_count | default(0) }}</div>
+                        </div>
+                        <div class="stat-icon-badge bg-danger-subtle text-danger">
+                            <i class="fa-solid fa-triangle-exclamation fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="stat-footer mt-3 pt-2 border-top border-dark-subtle text-secondary small">
+                        <i class="fa-solid fa-shield-virus text-danger me-1"></i> High risk threats
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legitimate -->
+            <div class="col">
+                <div class="stat-card legitimate h-100 p-3 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <span class="stat-label d-block text-secondary text-uppercase fw-semibold mb-1">Legitimate</span>
+                            <div class="stat-number text-success fw-bold">{{ stats.legitimate_count | default(0) }}</div>
+                        </div>
+                        <div class="stat-icon-badge bg-success-subtle text-success">
+                            <i class="fa-solid fa-circle-check fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="stat-footer mt-3 pt-2 border-top border-dark-subtle text-secondary small">
+                        <i class="fa-solid fa-circle-check text-success me-1"></i> Clean structural signatures
+                    </div>
+                </div>
+            </div>
+
+            <!-- Uncertain -->
+            <div class="col">
+                <div class="stat-card uncertain h-100 p-3 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <span class="stat-label d-block text-secondary text-uppercase fw-semibold mb-1">Uncertain</span>
+                            <div class="stat-number text-warning fw-bold">{{ stats.uncertain_count | default(0) }}</div>
+                        </div>
+                        <div class="stat-icon-badge bg-warning-subtle text-warning">
+                            <i class="fa-solid fa-circle-question fs-4"></i>
+                        </div>
+                    </div>
+                    <div class="stat-footer mt-3 pt-2 border-top border-dark-subtle text-secondary small">
+                        <i class="fa-solid fa-magnifying-glass text-warning me-1"></i> Borderline confidence
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================================
+             3. VISUAL DISTRIBUTION & ACTION HERO
+             ================================================================= -->
+        <div class="row g-4 mb-4">
+            <!-- Chart Section -->
+            <div class="col-lg-5 col-xl-4">
+                <div class="card cyber-card h-100">
+                    <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-3 border-secondary-subtle">
+                        <h3 class="h5 fw-bold text-light mb-0">
+                            <i class="fa-solid fa-chart-pie me-2 text-info"></i>Scan Distribution
+                        </h3>
+                        <span class="badge bg-secondary text-light small">Live Telemetry</span>
+                    </div>
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center py-4">
+                        {% if stats.total_scans and stats.total_scans > 0 %}
+                            <div class="chart-container position-relative" style="width: 100%; max-width: 280px; height: 260px;">
+                                <canvas id="scanChart"></canvas>
+                            </div>
+                            <div class="d-flex justify-content-center gap-3 mt-3 w-100 text-center small">
+                                <div>
+                                    <span class="legend-dot bg-danger d-inline-block rounded-circle me-1" style="width: 10px; height: 10px;"></span>
+                                    <span class="text-secondary">Phishing ({{ stats.phishing_count }})</span>
+                                </div>
+                                <div>
+                                    <span class="legend-dot bg-success d-inline-block rounded-circle me-1" style="width: 10px; height: 10px;"></span>
+                                    <span class="text-secondary">Legitimate ({{ stats.legitimate_count }})</span>
+                                </div>
+                                <div>
+                                    <span class="legend-dot bg-warning d-inline-block rounded-circle me-1" style="width: 10px; height: 10px;"></span>
+                                    <span class="text-secondary">Uncertain ({{ stats.uncertain_count }})</span>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-5 text-muted">
+                                <div class="chart-empty-icon mb-3">
+                                    <i class="fa-solid fa-chart-pie fa-3x text-secondary opacity-50"></i>
+                                </div>
+                                <h4 class="h6 text-secondary fw-semibold">No scans yet</h4>
+                                <p class="small text-muted mb-3">Run your first URL analysis to populate telemetry charts.</p>
+                                <a href="/scanner" class="btn btn-sm btn-outline-cyber">
+                                    <i class="fa-solid fa-magnifying-glass me-1"></i> Scan First URL
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scanner Quick Launcher & Threat Guide -->
+            <div class="col-lg-7 col-xl-8">
+                <div class="card cyber-card h-100">
+                    <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-3 border-secondary-subtle">
+                        <h3 class="h5 fw-bold text-light mb-0">
+                            <i class="fa-solid fa-shield-halved me-2 text-primary"></i>Immediate URL Inspection
+                        </h3>
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Fast Pipeline</span>
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column justify-content-between">
+                        <div>
+                            <p class="text-secondary mb-3">
+                                Paste any link below to execute passive lexical analysis and SHAP feature weight decomposition.
+                            </p>
+                            <form action="/scanner" method="GET" class="mb-4">
+                                <div class="input-group cyber-input-group input-group-lg">
+                                    <span class="input-group-text bg-secondary border-secondary-subtle text-secondary">
+                                        <i class="fa-solid fa-link"></i>
+                                    </span>
+                                    <input 
+                                        type="url" 
+                                        name="url" 
+                                        class="form-control bg-secondary text-light border-secondary-subtle" 
+                                        placeholder="https://suspicious-domain.com/login-verify..." 
+                                        required
+                                    >
+                                    <button class="btn btn-primary px-4 fw-semibold shadow-cyber" type="submit">
+                                        <i class="fa-solid fa-bolt me-1"></i> Analyze
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Mini security tips -->
+                        <div class="row g-3 pt-3 border-top border-dark-subtle">
+                            <div class="col-md-4">
+                                <div class="p-2 rounded bg-secondary-subtle h-100">
+                                    <div class="text-info fw-semibold small mb-1">
+                                        <i class="fa-solid fa-eye-slash me-1"></i> Zero Contact
+                                    </div>
+                                    <p class="text-muted smaller mb-0">No network handshake occurs with target host.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-2 rounded bg-secondary-subtle h-100">
+                                    <div class="text-warning fw-semibold small mb-1">
+                                        <i class="fa-solid fa-diagram-project me-1"></i> SHAP Visuals
+                                    </div>
+                                    <p class="text-muted smaller mb-0">Understand which lexical flags raised the alarm.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-2 rounded bg-secondary-subtle h-100">
+                                    <div class="text-success fw-semibold small mb-1">
+                                        <i class="fa-solid fa-database me-1"></i> Audit Trail
+                                    </div>
+                                    <p class="text-muted smaller mb-0">Every scanned record is safely logged in history.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================================
+             4. RECENT SCANS TABLE
+             ================================================================= -->
+        <div class="card cyber-card shadow-sm">
+            <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-3 border-secondary-subtle">
+                <h3 class="h5 fw-bold text-light mb-0">
+                    <i class="fa-solid fa-list-check me-2 text-info"></i>Recent Activity
+                </h3>
+                <a href="/history" class="btn btn-outline-secondary btn-sm">
+                    View All <i class="fa-solid fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+            <div class="card-body p-0">
+                {% if recent_scans and recent_scans | length > 0 %}
+                    <div class="table-responsive">
+                        <table class="table cyber-table align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="ps-4">URL</th>
+                                    <th scope="col">Prediction</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col" class="text-end pe-4">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for scan in recent_scans %}
+                                    {% set pred_lower = (scan.prediction | string | lower) if scan.prediction else '' %}
+                                    <tr>
+                                        <!-- URL (Truncated) -->
+                                        <td class="ps-4">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fa-solid fa-link text-muted me-2"></i>
+                                                <span class="font-monospace text-light text-truncate" style="max-width: 380px;" title="{{ scan.submitted_url }}">
+                                                    {{ scan.submitted_url | truncate(50, True, '...') }}
+                                                </span>
+                                            </div>
+                                        </td>
+
+                                        <!-- Prediction Badge -->
+                                        <td>
+                                            {% if 'phish' in pred_lower %}
+                                                <span class="badge badge-cyber-danger">
+                                                    <i class="fa-solid fa-triangle-exclamation me-1"></i> Potential Phishing
+                                                </span>
+                                            {% elif 'legit' in pred_lower %}
+                                                <span class="badge badge-cyber-success">
+                                                    <i class="fa-solid fa-circle-check me-1"></i> Legitimate-Looking
+                                                </span>
+                                            {% else %}
+                                                <span class="badge badge-cyber-warning">
+                                                    <i class="fa-solid fa-circle-question me-1"></i> Uncertain
+                                                </span>
+                                            {% endif %}
+                                        </td>
+
+                                        <!-- Date -->
+                                        <td class="text-secondary small font-monospace">
+                                            {% if scan.scanned_at %}
+                                                {{ scan.scanned_at.strftime('%Y-%m-%d %H:%M') if scan.scanned_at.strftime is defined else scan.scanned_at }}
+                                            {% else %}
+                                                Just now
+                                            {% endif %}
+                                        </td>
+
+                                        <!-- Action -->
+                                        <td class="text-end pe-4">
+                                            <a href="/result/{{ scan._id }}" class="btn btn-outline-cyber btn-sm">
+                                                <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> View
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <div class="empty-state-icon mb-3">
+                            <i class="fa-solid fa-shield-cat fa-3x text-secondary opacity-50"></i>
+                        </div>
+                        <h4 class="h6 text-secondary fw-semibold">No scans yet. Start scanning!</h4>
+                        <p class="text-muted small mb-3">Your scan history and machine learning predictions will be recorded here.</p>
+                        <a href="/scanner" class="btn btn-primary btn-sm px-3 shadow-cyber">
+                            <i class="fa-solid fa-magnifying-glass me-1"></i> Launch First Scan
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js CDN Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Server Stats Injection -->
+<script>
+    const scanStats = {
+        phishing: {{ stats.phishing_count | default(0) }},
+        legitimate: {{ stats.legitimate_count | default(0) }},
+        uncertain: {{ stats.uncertain_count | default(0) }}
+    };
+
+    // Live Date Display
+    document.addEventListener('DOMContentLoaded', () => {
+        const dateEl = document.getElementById('currentDateText');
+        if (dateEl) {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'short', day: 'numeric', weekday: 'short' };
+            dateEl.textContent = now.toLocaleDateString(undefined, options);
+        }
+    });
+</script>
+
+<!-- Custom Dashboard Logic -->
+<script src="/static/js/dashboard.js"></script>
+{% endblock %}

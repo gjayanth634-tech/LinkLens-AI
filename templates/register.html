@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account - LinkLens AI{% endblock %}
+
+{% block content %}
+<div class="auth-page-wrapper d-flex align-items-center justify-content-center py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5" style="max-width: 480px;">
+                <div class="card cyber-card auth-card shadow-lg animate-fade-in">
+                    <div class="card-header auth-card-header text-center pt-4 pb-3 border-0 bg-transparent">
+                        <div class="auth-icon-wrapper mb-3 mx-auto">
+                            <i class="fa-solid fa-user-plus text-gradient fs-3"></i>
+                        </div>
+                        <h2 class="h4 fw-bold text-light mb-1">Create Account</h2>
+                        <p class="text-secondary small mb-0">Join LinkLens AI for proactive URL threat scanning</p>
+                    </div>
+
+                    <div class="card-body px-4 py-3">
+                        <form method="POST" action="/register" class="needs-validation" novalidate id="registerForm">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                            <!-- Client-side error banner for password mismatch -->
+                            <div id="passwordMismatchAlert" class="alert alert-danger cyber-alert d-none align-items-center py-2 px-3 mb-3" role="alert">
+                                <i class="fa-solid fa-circle-exclamation me-2"></i>
+                                <span class="small">Passwords do not match! Please verify.</span>
+                            </div>
+
+                            <!-- Full Name -->
+                            <div class="mb-3">
+                                <label for="full_name" class="form-label text-secondary small fw-semibold">Full Name</label>
+                                <div class="input-group cyber-input-group">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-user text-muted"></i>
+                                    </span>
+                                    <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        id="full_name" 
+                                        name="full_name" 
+                                        placeholder="Alex Mercer" 
+                                        required 
+                                        autocomplete="name"
+                                        autofocus
+                                    >
+                                </div>
+                                <div class="invalid-feedback">Please enter your full name.</div>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label text-secondary small fw-semibold">Email Address</label>
+                                <div class="input-group cyber-input-group">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-envelope text-muted"></i>
+                                    </span>
+                                    <input 
+                                        type="email" 
+                                        class="form-control" 
+                                        id="email" 
+                                        name="email" 
+                                        placeholder="name@example.com" 
+                                        required 
+                                        autocomplete="email"
+                                    >
+                                </div>
+                                <div class="invalid-feedback">Please enter a valid email address.</div>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label text-secondary small fw-semibold">Password</label>
+                                <div class="input-group cyber-input-group">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-lock text-muted"></i>
+                                    </span>
+                                    <input 
+                                        type="password" 
+                                        class="form-control" 
+                                        id="password" 
+                                        name="password" 
+                                        placeholder="At least 8 characters" 
+                                        required 
+                                        minlength="8" 
+                                        autocomplete="new-password"
+                                    >
+                                    <button class="btn btn-outline-secondary toggle-password-btn" type="button" tabindex="-1" onclick="togglePasswordVisibility('password', this)">
+                                        <i class="fa-solid fa-eye text-muted"></i>
+                                    </button>
+                                </div>
+                                <div class="form-text text-muted small">Must be at least 8 characters long.</div>
+                                <div class="invalid-feedback">Password must be at least 8 characters long.</div>
+                            </div>
+
+                            <!-- Confirm Password -->
+                            <div class="mb-4">
+                                <label for="confirm_password" class="form-label text-secondary small fw-semibold">Confirm Password</label>
+                                <div class="input-group cyber-input-group">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-lock text-muted"></i>
+                                    </span>
+                                    <input 
+                                        type="password" 
+                                        class="form-control" 
+                                        id="confirm_password" 
+                                        name="confirm_password" 
+                                        placeholder="Re-type your password" 
+                                        required 
+                                        minlength="8" 
+                                        autocomplete="new-password"
+                                    >
+                                    <button class="btn btn-outline-secondary toggle-password-btn" type="button" tabindex="-1" onclick="togglePasswordVisibility('confirm_password', this)">
+                                        <i class="fa-solid fa-eye text-muted"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback">Please confirm your password.</div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold shadow-cyber" id="submitBtn">
+                                <i class="fa-solid fa-user-plus me-2"></i> Create Account
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="card-footer auth-card-footer text-center py-3 border-top border-secondary-subtle bg-transparent">
+                        <p class="text-secondary small mb-0">
+                            Already have an account? <a href="/login" class="fw-semibold text-gradient text-decoration-none">Sign in</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="text-center mt-3 text-muted small">
+                    <i class="fa-solid fa-user-shield me-1 text-info"></i> Your data is stored safely with salted hash cryptography
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function togglePasswordVisibility(inputId, btn) {
+        const input = document.getElementById(inputId);
+        const icon = btn.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('registerForm');
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirm_password');
+        const mismatchAlert = document.getElementById('passwordMismatchAlert');
+
+        function checkPasswordMatch() {
+            if (!confirmPassword.value) {
+                mismatchAlert.classList.add('d-none');
+                confirmPassword.classList.remove('is-invalid');
+                return true;
+            }
+
+            if (password.value !== confirmPassword.value) {
+                mismatchAlert.classList.remove('d-none');
+                confirmPassword.classList.add('is-invalid');
+                return false;
+            } else {
+                mismatchAlert.classList.add('d-none');
+                confirmPassword.classList.remove('is-invalid');
+                return true;
+            }
+        }
+
+        password.addEventListener('input', checkPasswordMatch);
+        confirmPassword.addEventListener('input', checkPasswordMatch);
+
+        form.addEventListener('submit', function(event) {
+            let isValid = form.checkValidity();
+            const passwordsMatch = checkPasswordMatch();
+
+            if (!isValid || !passwordsMatch) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            form.classList.add('was-validated');
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+
+{% block title %}Scan Details - LinkLens AI{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Back Navigation -->
+    <div class="mb-4">
+        <a href="/history" class="btn btn-sm btn-outline-secondary text-light">
+            <i class="fa-solid fa-arrow-left me-2"></i>Back to History
+        </a>
+    </div>
+
+    <!-- Main Result Card -->
+    {% if scan.prediction == 'Potential Phishing' %}
+    <div class="card shadow-lg mb-4 border-0" style="background-color: var(--bg-card, #1a2332); border-top: 5px solid var(--danger, #ef4444) !important; border-radius: 14px;">
+        <div class="card-body p-4 p-md-5 text-center">
+            <div class="mb-3">
+                <i class="fa-solid fa-triangle-exclamation text-danger display-3 animate-pulse"></i>
+            </div>
+            <h2 class="text-danger fw-bold tracking-wide mb-2">POTENTIAL PHISHING</h2>
+            <p class="text-light fs-5 mb-4 mx-auto" style="max-width: 650px;">
+                Suspicious characteristics were detected in this URL. Exercise extreme caution.
+            </p>
+    {% elif scan.prediction == 'Legitimate-Looking' %}
+    <div class="card shadow-lg mb-4 border-0" style="background-color: var(--bg-card, #1a2332); border-top: 5px solid var(--success, #22c55e) !important; border-radius: 14px;">
+        <div class="card-body p-4 p-md-5 text-center">
+            <div class="mb-3">
+                <i class="fa-solid fa-circle-check text-success display-3"></i>
+            </div>
+            <h2 class="text-success fw-bold tracking-wide mb-2">LEGITIMATE-LOOKING</h2>
+            <p class="text-light fs-5 mb-4 mx-auto" style="max-width: 650px;">
+                This URL appears to have legitimate characteristics, but always verify before sharing sensitive information.
+            </p>
+    {% else %}
+    <div class="card shadow-lg mb-4 border-0" style="background-color: var(--bg-card, #1a2332); border-top: 5px solid var(--warning, #f59e0b) !important; border-radius: 14px;">
+        <div class="card-body p-4 p-md-5 text-center">
+            <div class="mb-3">
+                <i class="fa-solid fa-circle-question text-warning display-3"></i>
+            </div>
+            <h2 class="text-warning fw-bold tracking-wide mb-2">UNCERTAIN</h2>
+            <p class="text-light fs-5 mb-4 mx-auto" style="max-width: 650px;">
+                The model does not have sufficient confidence. Verify this URL through additional means before visiting.
+            </p>
+    {% endif %}
+
+            <!-- Scanned URL Display -->
+            <div class="p-3 rounded text-start mx-auto mb-3 border border-secondary border-opacity-25" style="background-color: var(--bg-secondary, #111827); max-width: 750px;">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span class="text-secondary small fw-semibold text-uppercase">Scanned URL</span>
+                    <button class="btn btn-sm btn-link text-info p-0 text-decoration-none copy-btn" onclick="navigator.clipboard.writeText('{{ scan.submitted_url }}'); this.innerText='Copied!'; setTimeout(() => this.innerText='Copy', 2000);">
+                        <i class="fa-regular fa-copy me-1"></i>Copy
+                    </button>
+                </div>
+                <div class="font-monospace text-light text-break fs-6" style="word-break: break-all;">
+                    {{ scan.submitted_url }}
+                </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <p class="text-secondary small mb-0">
+                <i class="fa-solid fa-shield-halved me-1 text-info"></i>
+                This prediction is based on URL characteristics only. It does not guarantee safety.
+            </p>
+        </div>
+    </div>
+
+    <!-- Prediction Details Card -->
+    <div class="card shadow border-0 mb-4" style="background-color: var(--bg-card, #1a2332); border-radius: 14px;">
+        <div class="card-header bg-transparent border-secondary border-opacity-25 py-3">
+            <h5 class="text-light fw-bold mb-0 d-flex align-items-center">
+                <i class="fa-solid fa-chart-simple text-info me-2"></i>Prediction Overview
+            </h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <!-- Left Column -->
+                <div class="col-md-6 border-end-md border-secondary border-opacity-25">
+                    <div class="mb-4">
+                        <span class="text-secondary small text-uppercase fw-semibold d-block mb-1">Model Name</span>
+                        <div class="text-light fs-5 fw-bold d-flex align-items-center">
+                            <i class="fa-solid fa-brain text-primary me-2"></i>
+                            {{ scan.model_name or 'Random Forest URL Classifier' }}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="text-secondary small text-uppercase fw-semibold">Phishing Probability</span>
+                            <span class="text-light fw-bold fs-5">
+                                {{ (scan.model_score * 100)|round(1) }}%
+                            </span>
+                        </div>
+                        <div class="progress" style="height: 12px; background-color: var(--bg-secondary, #111827); border-radius: 6px;">
+                            {% if scan.prediction == 'Potential Phishing' %}
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: {{ [scan.model_score * 100, 100]|min }}%;" aria-valuenow="{{ scan.model_score * 100 }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            {% elif scan.prediction == 'Legitimate-Looking' %}
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ [scan.model_score * 100, 100]|min }}%;" aria-valuenow="{{ scan.model_score * 100 }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            {% else %}
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ [scan.model_score * 100, 100]|min }}%;" aria-valuenow="{{ scan.model_score * 100 }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="mt-3 small">
+                        <div class="d-flex justify-content-between text-secondary">
+                            <span>Legitimate probability</span>
+                            <span class="text-light">{{ (scan.legitimate_probability|default(1 - scan.model_score, true) * 100)|round(1) }}%</span>
+                        </div>
+                        <div class="d-flex justify-content-between text-secondary">
+                            <span>Phishing probability</span>
+                            <span class="text-light">{{ (scan.phishing_probability|default(scan.model_score, true) * 100)|round(1) }}%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-md-6 ps-md-4">
+                    <div class="mb-4">
+                        <span class="text-secondary small text-uppercase fw-semibold d-block mb-1">Scanned At</span>
+                        <div class="text-light fs-6 fw-semibold d-flex align-items-center">
+                            <i class="fa-regular fa-clock text-info me-2"></i>
+                            {% if scan.scanned_at is string %}
+                                {{ scan.scanned_at }}
+                            {% elif scan.scanned_at %}
+                                {{ scan.scanned_at.strftime('%Y-%m-%d %H:%M:%S') }}
+                            {% else %}
+                                Just now
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-secondary small text-uppercase fw-semibold d-block mb-1">Prediction Category</span>
+                        <div>
+                            {% if scan.prediction == 'Potential Phishing' %}
+                            <span class="badge bg-danger fs-6 px-3 py-2">
+                                <i class="fa-solid fa-triangle-exclamation me-1"></i> Potential Phishing
+                            </span>
+                            {% elif scan.prediction == 'Legitimate-Looking' %}
+                            <span class="badge bg-success fs-6 px-3 py-2">
+                                <i class="fa-solid fa-circle-check me-1"></i> Legitimate-Looking
+                            </span>
+                            {% else %}
+                            <span class="badge bg-warning text-dark fs-6 px-3 py-2">
+                                <i class="fa-solid fa-circle-question me-1"></i> Uncertain
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if scan.comparative_predictions %}
+    <div class="card shadow border-0 mb-4" style="background-color: var(--bg-card, #1a2332); border-radius: 14px;">
+        <div class="card-header bg-transparent border-secondary border-opacity-25 py-3">
+            <h5 class="text-light fw-bold mb-0">Model Comparison</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-dark table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Prediction</th>
+                        <th>Legitimate Probability</th>
+                        <th>Phishing Probability</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for model_key, model_result in scan.comparative_predictions.items() %}
+                    <tr>
+                        <td>{{ model_result.model_name }}</td>
+                        <td>{{ model_result.prediction }}</td>
+                        <td>{{ (model_result.legitimate_probability * 100)|round(1) }}%</td>
+                        <td>{{ (model_result.phishing_probability * 100)|round(1) }}%</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- SHAP Explanation Card -->
+    <div class="card shadow border-0 mb-4" style="background-color: var(--bg-card, #1a2332); border-radius: 14px;">
+        <div class="card-header bg-transparent border-secondary border-opacity-25 py-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <div>
+                <h5 class="text-light fw-bold mb-1 d-flex align-items-center">
+                    <i class="fa-solid fa-circle-info text-info me-2"></i>Why This Prediction?
+                </h5>
+                <p class="text-secondary small mb-0">SHAP analysis shows which URL features most influenced the model's decision</p>
+            </div>
+            <!-- Legend -->
+            <div class="d-flex align-items-center gap-3 small">
+                <div class="d-flex align-items-center">
+                    <span class="d-inline-block rounded-circle me-2" style="width: 10px; height: 10px; background-color: var(--danger, #ef4444);"></span>
+                    <span class="text-secondary">Pushes Phishing</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="d-inline-block rounded-circle me-2" style="width: 10px; height: 10px; background-color: var(--success, #22c55e);"></span>
+                    <span class="text-secondary">Pushes Legitimate</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            {% if scan.shap_explanation and scan.shap_explanation.feature_contributions %}
+            <div class="shap-contributions-list">
+                {% for contrib in scan.shap_explanation.feature_contributions[:10] %}
+                {% set abs_shap = contrib.shap_value|abs %}
+                {% set width_pct = [([abs_shap * 140, 100]|min)|round, 8]|max %}
+                {% set is_phishing_dir = (contrib.direction|lower == 'phishing') or (contrib.shap_value > 0) %}
+                <div class="p-3 mb-3 rounded border border-secondary border-opacity-25" style="background-color: var(--bg-secondary, #111827);">
+                    <div class="d-flex justify-content-between align-items-center mb-1 flex-wrap gap-2">
+                        <div class="d-flex align-items-center">
+                            <span class="text-light fw-bold me-2">{{ contrib.feature|replace('_', ' ')|title }}</span>
+                            <span class="badge bg-dark text-info border border-secondary border-opacity-50 font-monospace small">
+                                Value: {{ contrib.value }}
+                            </span>
+                        </div>
+                        <div class="font-monospace small fw-bold {{ 'text-danger' if is_phishing_dir else 'text-success' }}">
+                            {{ '+' if contrib.shap_value > 0 else '' }}{{ contrib.shap_value|round(4) }} SHAP
+                        </div>
+                    </div>
+                    
+                    <!-- Horizontal Bar -->
+                    <div class="progress my-2" style="height: 8px; background-color: rgba(255,255,255,0.06); border-radius: 4px;">
+                        <div 
+                            class="progress-bar {{ 'bg-danger' if is_phishing_dir else 'bg-success' }}" 
+                            role="progressbar" 
+                            style="width: {{ width_pct }}%;" 
+                            aria-valuenow="{{ width_pct }}" 
+                            aria-valuemin="0" 
+                            aria-valuemax="100"
+                        ></div>
+                    </div>
+
+                    {% if contrib.description %}
+                    <p class="text-secondary small mb-0 mt-1">
+                        {{ contrib.description }}
+                    </p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-4 text-secondary">
+                <i class="fa-solid fa-chart-line fa-2x mb-2 text-secondary opacity-50"></i>
+                <p class="mb-0">SHAP explanation data is not available for this scan.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Extracted Features Card -->
+    <div class="card shadow border-0 mb-4" style="background-color: var(--bg-card, #1a2332); border-radius: 14px;">
+        <div class="card-header bg-transparent border-secondary border-opacity-25 py-3">
+            <h5 class="text-light fw-bold mb-0 d-flex align-items-center">
+                <i class="fa-solid fa-list-check text-info me-2"></i>URL Feature Analysis
+            </h5>
+        </div>
+        <div class="card-body p-4">
+            {% if scan.extracted_features %}
+            <div class="row g-3">
+                {% for feat_key, feat_val in scan.extracted_features.items() %}
+                <div class="col-sm-6 col-lg-4">
+                    <div class="p-3 rounded h-100 border border-secondary border-opacity-25 d-flex flex-column justify-content-between" style="background-color: var(--bg-secondary, #111827);">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid 
+                                    {% if 'https' in feat_key %}fa-lock text-success
+                                    {% elif 'ip' in feat_key %}fa-network-wired text-warning
+                                    {% elif 'length' in feat_key %}fa-ruler text-primary
+                                    {% elif 'dot' in feat_key %}fa-ellipsis text-info
+                                    {% elif 'hyphen' in feat_key or 'dash' in feat_key %}fa-minus text-info
+                                    {% elif 'at' in feat_key %}fa-at text-danger
+                                    {% elif 'question' in feat_key %}fa-question text-warning
+                                    {% elif 'percent' in feat_key %}fa-percent text-warning
+                                    {% elif 'digit' in feat_key %}fa-hashtag text-secondary
+                                    {% elif 'subdomain' in feat_key %}fa-sitemap text-primary
+                                    {% elif 'suspicious' in feat_key %}fa-triangle-exclamation text-danger
+                                    {% else %}fa-microchip text-info
+                                    {% endif %} me-2"></i>
+                                <span class="text-secondary small fw-semibold text-truncate" title="{{ feat_key|replace('_', ' ')|title }}">
+                                    {{ feat_key|replace('_', ' ')|title }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between pt-1">
+                            {% if feat_key.startswith('has_') or feat_key.startswith('is_') or feat_key in ['prefix_suffix', 'has_ip_address', 'has_https'] %}
+                                {% if feat_val in [1, True, '1', 'true', 'True'] %}
+                                    {% if feat_key == 'has_https' %}
+                                        <span class="badge bg-success px-2 py-1"><i class="fa-solid fa-check me-1"></i>Yes</span>
+                                    {% elif feat_key in ['has_ip_address', 'has_at_symbol'] %}
+                                        <span class="badge bg-danger px-2 py-1"><i class="fa-solid fa-triangle-exclamation me-1"></i>Yes</span>
+                                    {% else %}
+                                        <span class="badge bg-info px-2 py-1">Yes</span>
+                                    {% endif %}
+                                {% else %}
+                                    {% if feat_key == 'has_https' %}
+                                        <span class="badge bg-danger px-2 py-1"><i class="fa-solid fa-xmark me-1"></i>No</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary px-2 py-1">No</span>
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                                <span class="text-light fw-bold font-monospace fs-5">{{ feat_val }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-4 text-secondary">
+                <i class="fa-solid fa-database fa-2x mb-2 text-secondary opacity-50"></i>
+                <p class="mb-0">No extracted features found for this scan.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-md-start pt-2">
+        <a href="/scanner" class="btn btn-primary btn-lg px-4 fw-semibold text-white shadow-sm" style="background: linear-gradient(135deg, var(--accent-blue, #3b82f6), var(--accent-cyan, #06b6d4)); border: none;">
+            <i class="fa-solid fa-plus me-2"></i>Scan Another URL
+        </a>
+        <a href="/dashboard" class="btn btn-outline-secondary btn-lg px-4 fw-semibold text-light">
+            <i class="fa-solid fa-chart-pie me-2"></i>View Dashboard
+        </a>
+        <a href="/history" class="btn btn-outline-secondary btn-lg px-4 fw-semibold text-light">
+            <i class="fa-solid fa-clock-rotate-left me-2"></i>Back to History
+        </a>
+    </div>
+</div>
+{% endblock %}

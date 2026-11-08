@@ -1,0 +1,28 @@
+# LinkLens AI - Requirements
+# Python 3.8+ required
+
+# Web Framework
+Flask
+Flask-WTF
+
+# Database
+pymongo
+
+# Machine Learning
+scikit-learn
+xgboost
+catboost
+joblib
+
+# Explainable AI
+shap
+
+# Data Processing
+pandas
+numpy
+
+# Security
+Werkzeug
+
+# Environment Variables
+python-dotenv

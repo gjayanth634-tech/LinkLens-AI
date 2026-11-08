@@ -1,0 +1,1319 @@
+/* ==========================================================================
+   LinkLens AI - Dark Cybersecurity Dashboard Theme
+   Comprehensive Production Stylesheet
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Variables & Design Tokens
+   -------------------------------------------------------------------------- */
+:root {
+  --bg-primary: #0a0e17;
+  --bg-secondary: #111827;
+  --bg-card: #1a2332;
+  --bg-card-hover: #1f2b3d;
+  --border-color: #2a3444;
+  --border-color-light: #374151;
+  --accent-blue: #3b82f6;
+  --accent-cyan: #06b6d4;
+  --accent-gradient: linear-gradient(135deg, #3b82f6, #06b6d4);
+  --accent-gradient-hover: linear-gradient(135deg, #2563eb, #0891b2);
+  --danger-gradient: linear-gradient(135deg, #ef4444, #b91c1c);
+  --success-gradient: linear-gradient(135deg, #22c55e, #15803d);
+  --warning-gradient: linear-gradient(135deg, #f59e0b, #d97706);
+  --text-primary: #e5e7eb;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --text-bright: #ffffff;
+  --danger: #ef4444;
+  --danger-bg: rgba(239, 68, 68, 0.12);
+  --danger-border: rgba(239, 68, 68, 0.35);
+  --success: #22c55e;
+  --success-bg: rgba(34, 197, 94, 0.12);
+  --success-border: rgba(34, 197, 94, 0.35);
+  --warning: #f59e0b;
+  --warning-bg: rgba(245, 158, 11, 0.12);
+  --warning-border: rgba(245, 158, 11, 0.35);
+  --info: #06b6d4;
+  --info-bg: rgba(6, 182, 212, 0.12);
+  --info-border: rgba(6, 182, 212, 0.35);
+  --glow-shadow: 0 0 20px rgba(6, 182, 212, 0.35);
+  --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  --font-family: 'Inter', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset, Base & Global Typography
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body.dark-theme {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  color: var(--text-bright);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent-cyan);
+  text-decoration: none;
+}
+
+code, pre, .font-monospace {
+  font-family: var(--font-mono);
+}
+
+/* --------------------------------------------------------------------------
+   3. Custom Dark Scrollbars
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-blue);
+}
+
+/* --------------------------------------------------------------------------
+   4. Utility Classes & Helpers
+   -------------------------------------------------------------------------- */
+.text-gradient {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.text-gradient-danger {
+  background: var(--danger-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.text-gradient-success {
+  background: var(--success-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.bg-gradient {
+  background: var(--accent-gradient) !important;
+}
+
+.glow {
+  box-shadow: var(--glow-shadow);
+}
+
+.shadow-cyber {
+  box-shadow: 0 4px 14px 0 rgba(6, 182, 212, 0.35);
+}
+
+.shadow-cyber-danger {
+  box-shadow: 0 4px 14px 0 rgba(239, 68, 68, 0.4);
+}
+
+.smaller {
+  font-size: 0.8rem;
+}
+
+/* --------------------------------------------------------------------------
+   5. Cyber Badges & Tags
+   -------------------------------------------------------------------------- */
+.cyber-tag {
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 50rem;
+}
+
+.tech-badge {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 0.45rem 0.85rem;
+  font-size: 0.825rem;
+  font-weight: 500;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.tech-badge:hover {
+  border-color: var(--accent-cyan);
+  background: var(--bg-card);
+  transform: translateY(-2px);
+}
+
+.badge-cyber-danger {
+  background: var(--danger-bg);
+  color: #fca5a5;
+  border: 1px solid var(--danger-border);
+  padding: 0.35em 0.75em;
+  font-weight: 600;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.badge-cyber-success {
+  background: var(--success-bg);
+  color: #86efac;
+  border: 1px solid var(--success-border);
+  padding: 0.35em 0.75em;
+  font-weight: 600;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.badge-cyber-warning {
+  background: var(--warning-bg);
+  color: #fde047;
+  border: 1px solid var(--warning-border);
+  padding: 0.35em 0.75em;
+  font-weight: 600;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   6. Navigation Bar
+   -------------------------------------------------------------------------- */
+.cyber-navbar {
+  background-color: rgba(17, 24, 39, 0.85) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.85rem 0;
+  z-index: 1030;
+  transition: all 0.3s ease;
+}
+
+.navbar-brand {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-bright) !important;
+  letter-spacing: -0.02em;
+}
+
+.brand-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(59, 130, 246, 0.15);
+  border-radius: 8px;
+  border: 1px solid rgba(6, 182, 212, 0.25);
+}
+
+.cyber-navbar .nav-link {
+  color: var(--text-secondary) !important;
+  font-weight: 500;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.cyber-navbar .nav-link:hover {
+  color: var(--text-bright) !important;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.cyber-navbar .nav-link.active {
+  color: var(--accent-cyan) !important;
+  background: rgba(6, 182, 212, 0.08);
+}
+
+.cyber-toggler {
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.4rem 0.65rem;
+  border-radius: 6px;
+}
+
+.cyber-toggler:focus {
+  box-shadow: 0 0 0 2px var(--accent-blue);
+  outline: none;
+}
+
+/* User Profile in Navbar */
+.btn-user-profile {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.35rem 0.85rem;
+  border-radius: 50rem;
+  transition: all 0.2s ease;
+}
+
+.btn-user-profile:hover, .btn-user-profile:focus {
+  background: var(--bg-card-hover);
+  border-color: var(--accent-blue);
+  color: var(--text-bright);
+}
+
+.user-avatar-sm {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.cyber-dropdown {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 0.5rem 0;
+}
+
+.cyber-dropdown-item {
+  color: var(--text-primary);
+  padding: 0.6rem 1.25rem;
+  font-size: 0.9rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.cyber-dropdown-item:hover {
+  background-color: var(--bg-card-hover);
+  color: var(--accent-cyan);
+}
+
+.cyber-dropdown-item.text-danger:hover {
+  background-color: var(--danger-bg);
+  color: var(--danger) !important;
+}
+
+/* --------------------------------------------------------------------------
+   7. Cards & Containers
+   -------------------------------------------------------------------------- */
+.card, .cyber-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  overflow: hidden;
+}
+
+.card:hover, .cyber-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5), 0 0 15px rgba(59, 130, 246, 0.15);
+}
+
+.card-header {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-bright);
+  font-weight: 600;
+}
+
+.card-body {
+  color: var(--text-primary);
+}
+
+.card-footer {
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+}
+
+/* --------------------------------------------------------------------------
+   8. Buttons & Actions
+   -------------------------------------------------------------------------- */
+.btn {
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.55rem 1.25rem;
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: -0.01em;
+}
+
+.btn-primary {
+  background: var(--accent-gradient);
+  border: none;
+  color: #ffffff;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background: var(--accent-gradient-hover);
+  color: #ffffff;
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 6px 18px rgba(6, 182, 212, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-outline-cyber, .btn-outline-primary {
+  background: transparent;
+  border: 1px solid var(--accent-blue);
+  color: var(--accent-blue);
+}
+
+.btn-outline-cyber:hover, .btn-outline-primary:hover {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+}
+
+.btn-outline-secondary {
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--bg-card-hover);
+  border-color: var(--text-secondary);
+  color: var(--text-bright);
+}
+
+.btn-danger {
+  background: var(--danger-gradient);
+  border: none;
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #dc2626, #991b1b);
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+}
+
+.btn-success {
+  background: var(--success-gradient);
+  border: none;
+  color: #ffffff;
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #16a34a, #166534);
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.4);
+}
+
+.btn-warning {
+  background: var(--warning-gradient);
+  border: none;
+  color: #111827;
+  font-weight: 700;
+}
+
+.btn-warning:hover {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+}
+
+.btn-sm {
+  padding: 0.35rem 0.85rem;
+  font-size: 0.825rem;
+}
+
+.btn-lg {
+  padding: 0.75rem 1.75rem;
+  font-size: 1.05rem;
+}
+
+/* --------------------------------------------------------------------------
+   9. Forms & Inputs
+   -------------------------------------------------------------------------- */
+.form-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+}
+
+.form-control, .form-select {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 8px;
+  padding: 0.65rem 0.95rem;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: var(--bg-card);
+  border-color: var(--accent-blue);
+  color: var(--text-bright);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  outline: none;
+}
+
+.form-control::placeholder {
+  color: var(--text-muted);
+}
+
+.cyber-input-group .input-group-text {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  border-radius: 8px 0 0 8px;
+}
+
+.cyber-input-group .form-control {
+  border-radius: 0 8px 8px 0;
+}
+
+.cyber-input-group .form-control:not(:last-child) {
+  border-radius: 0;
+}
+
+.toggle-password-btn {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  color: var(--text-secondary);
+}
+
+.toggle-password-btn:hover {
+  background-color: var(--bg-card-hover);
+  color: var(--text-bright);
+  border-color: var(--border-color);
+}
+
+.form-text {
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   10. Alerts & Notifications
+   -------------------------------------------------------------------------- */
+.cyber-alert, .alert {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent-blue);
+  border-radius: 8px;
+  color: var(--text-primary);
+  padding: 1rem 1.25rem;
+}
+
+.alert-success {
+  border-left-color: var(--success);
+  background-color: rgba(34, 197, 94, 0.08);
+}
+
+.alert-danger {
+  border-left-color: var(--danger);
+  background-color: rgba(239, 68, 68, 0.08);
+}
+
+.alert-warning {
+  border-left-color: var(--warning);
+  background-color: rgba(245, 158, 11, 0.08);
+}
+
+.alert-info {
+  border-left-color: var(--info);
+  background-color: rgba(6, 182, 212, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   11. Hero Section Styling
+   -------------------------------------------------------------------------- */
+.hero-section {
+  min-height: calc(100vh - 76px);
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: var(--bg-primary);
+}
+
+.min-vh-hero {
+  min-height: calc(100vh - 150px);
+}
+
+.hero-background-glow {
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(59, 130, 246, 0.04) 50%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+  animation: pulse 8s ease-in-out infinite alternate;
+}
+
+.hero-grid-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(rgba(42, 52, 68, 0.15) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(42, 52, 68, 0.15) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-title {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  line-height: 1.15;
+}
+
+.hero-badge {
+  background: rgba(17, 24, 39, 0.85);
+  border: 1px solid var(--border-color);
+  padding: 0.4rem 1rem;
+  border-radius: 50rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-cyan);
+  animation: pulse 2s infinite;
+}
+
+/* Radar & Cyber Shield Visual */
+.hero-visual-card {
+  padding: 1.5rem;
+}
+
+.radar-scanner-wrapper {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radar-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+.radar-circle.circle-1 { width: 100%; height: 100%; }
+.radar-circle.circle-2 { width: 68%; height: 68%; border-color: rgba(59, 130, 246, 0.25); }
+.radar-circle.circle-3 { width: 36%; height: 36%; border-color: rgba(6, 182, 212, 0.35); }
+
+.radar-sweep {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 50%;
+  transform-origin: 100% 100%;
+  background: linear-gradient(45deg, rgba(6, 182, 212, 0.4), transparent 70%);
+  border-radius: 100% 0 0 0;
+  animation: radar-sweep 4s linear infinite;
+}
+
+.shield-core {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--accent-cyan);
+  box-shadow: var(--glow-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.shield-pulse-icon {
+  font-size: 2.2rem;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+.floating-badge {
+  position: absolute;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 3;
+}
+
+.floating-badge.badge-threat {
+  top: 10%;
+  right: -5%;
+  border-color: var(--danger-border);
+}
+
+.floating-badge.badge-safe {
+  bottom: 12%;
+  left: -8%;
+  border-color: var(--success-border);
+}
+
+.floating-badge.badge-shap {
+  bottom: 0%;
+  right: 5%;
+  border-color: var(--info-border);
+}
+
+.hero-mini-terminal {
+  background: #0d121d;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-red { background: #ef4444; }
+.dot-yellow { background: #f59e0b; }
+.dot-green { background: #22c55e; }
+
+/* --------------------------------------------------------------------------
+   12. Feature Cards Section
+   -------------------------------------------------------------------------- */
+.features-section {
+  background-color: var(--bg-primary);
+}
+
+.feature-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.feature-card:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(59, 130, 246, 0.2);
+}
+
+.feature-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: var(--accent-cyan);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-icon-wrapper {
+  background: var(--accent-gradient);
+  color: #fff;
+  transform: scale(1.08);
+}
+
+.feature-title {
+  color: var(--text-bright);
+}
+
+.feature-pill {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   13. How It Works Steps
+   -------------------------------------------------------------------------- */
+.how-it-works-section {
+  background-color: var(--bg-secondary);
+}
+
+.steps-flow-container {
+  position: relative;
+}
+
+.step-connector {
+  position: absolute;
+  top: 48px;
+  left: 12%;
+  right: 12%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.3), rgba(6, 182, 212, 0.8), rgba(59, 130, 246, 0.3));
+  z-index: 1;
+}
+
+.step-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-cyan);
+}
+
+.step-circle {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  font-weight: 800;
+  box-shadow: 0 0 16px rgba(6, 182, 212, 0.45);
+  border: 3px solid var(--bg-card);
+}
+
+/* --------------------------------------------------------------------------
+   14. CTA Section
+   -------------------------------------------------------------------------- */
+.cta-card {
+  background: linear-gradient(135deg, #111827 0%, #1a2332 100%);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  border-radius: 16px;
+  position: relative;
+}
+
+.cta-glow {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 150px;
+  background: radial-gradient(ellipse, rgba(6, 182, 212, 0.25) 0%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   15. Auth Pages (Login & Register)
+   -------------------------------------------------------------------------- */
+.auth-page-wrapper {
+  min-height: calc(100vh - 180px);
+  background: radial-gradient(circle at 50% 20%, rgba(59, 130, 246, 0.08), transparent 45%);
+}
+
+.auth-card {
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+}
+
+.auth-icon-wrapper {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   16. Dashboard Specific Styling
+   -------------------------------------------------------------------------- */
+.dashboard-wrapper {
+  background-color: var(--bg-primary);
+}
+
+.stat-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.stat-card.total::before {
+  background-color: var(--accent-blue);
+}
+
+.stat-card.phishing::before {
+  background-color: var(--danger);
+}
+
+.stat-card.legitimate::before {
+  background-color: var(--success);
+}
+
+.stat-card.uncertain::before {
+  background-color: var(--warning);
+}
+
+.stat-number {
+  font-size: 2.25rem;
+  line-height: 1.1;
+  font-family: var(--font-mono);
+  letter-spacing: -0.03em;
+}
+
+.stat-label {
+  font-size: 0.775rem;
+  letter-spacing: 0.05em;
+}
+
+.stat-icon-badge {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tables in Dark Dashboard */
+.cyber-table {
+  color: var(--text-primary);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.cyber-table thead th {
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  border-top: none;
+}
+
+.cyber-table tbody tr {
+  border-bottom: 1px solid rgba(42, 52, 68, 0.4);
+  transition: background-color 0.15s ease;
+}
+
+.cyber-table tbody tr:hover {
+  background-color: var(--bg-card-hover);
+}
+
+.cyber-table tbody td {
+  padding: 0.95rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(42, 52, 68, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   17. Scanner Interface Components
+   -------------------------------------------------------------------------- */
+.scanner-input {
+  background-color: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-bright) !important;
+  font-size: 1.15rem;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+}
+
+.scanner-input:focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.25) !important;
+}
+
+.scanner-btn {
+  background: var(--accent-gradient);
+  border: none;
+  font-size: 1.1rem;
+  padding: 0.9rem 2rem;
+  border-radius: 10px;
+  color: #ffffff;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+.scanner-btn:hover {
+  background: var(--accent-gradient-hover);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Loading Overlay & Spinner */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(10, 14, 23, 0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-spinner {
+  width: 64px;
+  height: 64px;
+  border: 4px solid rgba(6, 182, 212, 0.2);
+  border-top-color: var(--accent-cyan);
+  border-right-color: var(--accent-blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   18. Result Page & Explainability Components
+   -------------------------------------------------------------------------- */
+.result-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.result-card.result-phishing {
+  border-top: 4px solid var(--danger);
+}
+
+.result-card.result-legitimate {
+  border-top: 4px solid var(--success);
+}
+
+.result-card.result-uncertain {
+  border-top: 4px solid var(--warning);
+}
+
+.prediction-badge {
+  font-size: 1.1rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 50rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+}
+
+.prediction-badge.phishing {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
+}
+
+.prediction-badge.legitimate {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success-border);
+}
+
+.prediction-badge.uncertain {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid var(--warning-border);
+}
+
+/* SHAP Feature Bars */
+.feature-bar-wrapper {
+  margin-bottom: 0.75rem;
+}
+
+.feature-bar-track {
+  height: 8px;
+  background-color: var(--bg-secondary);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.feature-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.feature-bar.positive {
+  background: linear-gradient(90deg, var(--accent-blue), var(--danger));
+}
+
+.feature-bar.negative {
+  background: linear-gradient(90deg, var(--accent-cyan), var(--success));
+}
+
+/* --------------------------------------------------------------------------
+   19. Profile Page
+   -------------------------------------------------------------------------- */
+.profile-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.avatar-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  box-shadow: 0 0 24px rgba(6, 182, 212, 0.4);
+  border: 3px solid var(--bg-card);
+}
+
+/* --------------------------------------------------------------------------
+   20. Footer
+   -------------------------------------------------------------------------- */
+.footer {
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  color: var(--text-muted);
+}
+
+.footer-brand {
+  font-size: 1.15rem;
+}
+
+/* --------------------------------------------------------------------------
+   21. Keyframe Animations
+   -------------------------------------------------------------------------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes radar-sweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* --------------------------------------------------------------------------
+   22. Responsive Adjustments
+   -------------------------------------------------------------------------- */
+@media (max-width: 992px) {
+  .hero-section {
+    padding: 3rem 0;
+  }
+
+  .step-connector {
+    display: none;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 0.9rem;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .radar-scanner-wrapper {
+    width: 260px;
+    height: 260px;
+  }
+
+  .floating-badge {
+    display: none;
+  }
+
+  .stat-card {
+    margin-bottom: 0.5rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .auth-card {
+    border-radius: 10px;
+  }
+
+  .scanner-btn {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .cyber-table thead {
+    font-size: 0.7rem;
+  }
+}
